@@ -3,7 +3,7 @@ usuario = ""
 nombre_usuario = ""
 contraseña = ""
 
-registro_usuario = ["",""]
+registro_usuario = ["null","null"]
 #Funcion, venta de entradas
 def venta():
     can_entrada = input("Escriba el numero de entradas ") #Construccion
@@ -24,24 +24,24 @@ def menu_venta():
         
 #Registro del usuario en la app
 def registrarse():
-    usuario = input("Si desea registrarse oprima Enter o si desea salir seleccione [1]: ")
+    usuario = input("\nSi desea registrarse oprima Enter o si desea salir seleccione [1]: ")
     if usuario == "1":
         salir()
+    else:    
+        nombre_usuario = input("Escriba su nombre de usuario: ")
+        contraseña = input("Escriba su contraseña: ")
+        registro_usuario[0,1] = [nombre_usuario, contraseña]
         
-    nombre_usuario = input("Escriba su nombre de usuario: ")
-    contraseña = input("Escriba su contraseña: ")
-    registro_usuario = [nombre_usuario, contraseña]
-    
-    while nombre_usuario == "":
-        input("Tiene que escribir un nombre de usuario: ")
-    while contraseña == "":
-        input("Tiene que escribir una contraseña: ")
-    menu()
+        while nombre_usuario == "":
+            input("Tiene que escribir un nombre de usuario: ")
+        while contraseña == "":
+            input("Tiene que escribir una contraseña: ")
+        menu()
 
 #Inicio de sesion de la app
 def iniciar_sesion():
     global nombre_usuario, contraseña, usuario
-    if nombre_usuario == usuario_registto[1] and contraseña == usuario_registto[2]:
+    if nombre_usuario != registro_usuario[0] and contraseña != registro_usuario[1]:
         input("Oprima Enter para registrese en la app: ")
         registrarse()
     print("Iniciar sesion\n\n")
