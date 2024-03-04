@@ -6,20 +6,25 @@ def clean():
     else:
         os.system('clear')
  
- 
+ #Boton de salida para cerra la app
+def salir():
+    print("ha salido de la app con exito")
      
-#Definicion de variables a nivel global en la app  
+ #Definicion de variables a nivel global en la app  
 #-------------------#
 usuario = ""
 nombre_usuario = ""
 contraseña = ""
 can_entrada = 0
 valor_total = 0
+verificacion_usuario = ""
+verificacion_contraseña = ""
 #-------------------#
 registro_usuario = ["",""]
 
-#Funcion para procesar las ventas y almacenado en informe
-def proceso_venta():    
+ #Funcion para procesar las ventas y almacenado en informe
+def proceso_venta():   
+    global valor_total 
     valor_total = can_entrada * valor_entrada
     print("\nCantidad de entradas: ", can_entrada,"\nValor total: ", valor_total)
     usuario = input("\nElija una de las siguientes opciones\n[1] comprar mas entradas \n[2] Volver \n[3] Salir de la app\n  ")
@@ -33,7 +38,7 @@ def proceso_venta():
         clean()
         salir()
 
-#Funcion, venta de entradas
+ #Funcion, venta de entradas
 def venta():
     global can_entrada, valor_total, valor_entrada
     #--------------------#
@@ -54,18 +59,7 @@ def venta():
             break
     proceso_venta()
     
-#Funcion para ver el informe de las ventas en la app
-def informe(): #Construccion
-    print("La cantidad total de entradas vendidas es de:", can_entrada,"\n\nLa cantidad de dinero recaudado es de:", valor_total)
-    usuario = input("\nElija una de las siguientes opciones\n[1] Volver \n[2] Salir de la app \n  ")
-    while usuario != "1" and usuario != "2":
-        if usuario == ["1"]:
-            clean()
-            menu_venta()
-        elif usuario == ["2"]:
-            clean()
-            salir()
-#Menu para realizar ventas o ver el informe        
+ #Menu para realizar ventas o ver el informe        
 def menu_venta():
     global usuario
     print("¡Cine Ya!")
@@ -79,10 +73,24 @@ def menu_venta():
     elif usuario == "3":
         clean()
         salir()
+
+ #Funcion para ver el informe de las ventas en la app
+def informe(): #Construccion
+    print("La cantidad total de entradas vendidas es de:", can_entrada,"\n\nLa cantidad de dinero recaudado es de:", valor_total)
+    usuario = input("\nElija una de las siguientes opciones\n[1] Volver \n[2] Salir de la app \n  ")
+    while usuario != "1" and usuario != "2":
+        usuario = input("Opcion no valida: ")
+    if usuario == "1":
+        clean()
+        menu_venta()
+    elif usuario == "2":
+        clean()
+        salir()
         
-#Registro del usuario en la app
+ #Registro del usuario en la app
 def registrarse():
-    usuario = input("\nSi desea registrarse oprima Enter o si desea salir seleccione [1]: ")
+    global nombre_usuario, contraseña, usuario
+    usuario = input("\noprima Enter para realizar el registro o si desea salir seleccione [1]: ")
     if usuario == "1":
         clean()
         salir()
@@ -93,34 +101,29 @@ def registrarse():
         registro_usuario.insert(1, contraseña)
         
         while nombre_usuario == "":
-            input("Tiene que escribir un nombre de usuario: ")
+           nombre_usuario = input("Tiene que escribir un nombre de usuario: ")
         while contraseña == "":
-            input("Tiene que escribir una contraseña: ")
+            contraseña = input("Tiene que escribir una contraseña: ")
         clean()
-        menu()
+        iniciar_sesion()
 
-#Inicio de sesion de la app
+ #Inicio de sesion de la app
 def iniciar_sesion():
-    global nombre_usuario, contraseña, usuario
-    if nombre_usuario == registro_usuario[0] and contraseña == registro_usuario[1]:
-        input("\nOprima Enter para registrese en la app: ")
-        registrarse()
-    else:
-        print("\nIniciar sesion\n\n")
-        #Verificaciones para el inicio de sesion
-        verificacion_usuario = input("Escriba su usuario: ")    
-        verificacion_contraseña = input("Escriba su contraseña: ")
+    global nombre_usuario, contraseña
+    print("\nIniciar sesion\n\n")
+    #Verificaciones para el inicio de sesion
+    verificacion_usuario = input("Escriba su usuario: ")    
+    verificacion_contraseña = input("Escriba su contraseña: ")
         
-    if usuario == "3":
+    #Verificacion del usuario y la contraseña
+    if nombre_usuario == verificacion_usuario and contraseña == verificacion_contraseña:
         clean()
-        salir()
-                
+        menu_venta()
     else:
-        #Verificamos que el nombre del usuario y la contraseña sean los mismos que registro el usuario
-        while verificacion_usuario != nombre_usuario and verificacion_contraseña != contraseña:
-            usuario = input("Su usuario es incorrecto, elija una opcion\n\n[1] Reestablecer nombre de usuario\n[2] Reestablecer contraseña\n[3] Salir\n  ")
-            while usuario != "1" and usuario != "2" and usuario != "3":
-                usuario = input("Opcion no valida: ")
+        #while verificacion_usuario == nombre_usuario and verificacion_contraseña == contraseña:
+        usuario = input("Su usuario es incorrecto, elija una opcion\n\n[1] Reestablecer nombre de usuario\n[2] Reestablecer contraseña\n[3] Salir\n  ")
+        while usuario != "1" and usuario != "2" and usuario != "3":
+            usuario = input("Opcion no valida: ")
             if usuario == "1":
                 nombre_usuario = input("Escriba un nuevo nombre de usuario: ")
                 clean()
@@ -135,16 +138,10 @@ def iniciar_sesion():
                 clean()
                 salir()  
                 break
-    clean()
-    menu_venta()
-              
-        
-#Boton de salida para cerra la app
-def salir():
-    print("ha salido de la app con exito")
-#Menu de usuario   
+
+ #Menu de usuario   
 def menu(): 
-    usuario = input("\nEliga una las siguientes opciones\n\n [1] iniciar sesion\n [2] registrarse\n [3] salir\n  ")
+    usuario = input("\nEliga una las siguientes opciones\n\n [1] iniciar sesion\n [3] salir\n  ")
 
     #Verificacion de usuario
     while usuario != "1" and usuario != "2" and usuario != "3":
@@ -159,10 +156,10 @@ def menu():
         clean()
         salir()
 
-#Bienvenida (se ejecuta primero)
+#-----------Bienvenida (se ejecuta primero)----------#
 
-#Usuario para verificacion
+ #Usuario para verificacion
 print("Bienvenido a la app Cine Ya\n")
 input("Oprima enter para continuar\n")
 clean()
-menu()
+registrarse()
